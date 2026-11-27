@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Case List</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .search-box { margin-bottom: 20px; display: flex; justify-content: space-between; }
+        .search-box input { width: 75%; padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
+        .back-btn { padding: 10px 20px; background: #333; color: #fff; border-radius: 6px; text-decoration: none; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #ddd; }
+        th { background: #4b6cff; color: #fff; }
+        tr:hover { background: rgba(75,108,255,0.08); }
+        img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .badge { padding: 5px 10px; border-radius: 5px; color: #fff; font-size: 13px; }
+        .pending { background: gray; }
+        .verified { background: green; }
+        .found { background: orange; }
+        .delete-btn { padding: 6px 12px; background: #e63946; color: #fff; border-radius: 5px; text-decoration: none; }
+        .delete-btn:hover { transform: scale(1.05); transition: 0.2s; }
+    </style>
+
+    <script>
+        function searchTable() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let rows = document.getElementById("caseTable").rows;
+            for (let i = 1; i < rows.length; i++) {
+                let text = rows[i].innerText.toLowerCase();
+                rows[i].style.display = text.includes(input) ? "" : "none";
+            }
+        }
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this case?");
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Admin - Missing Child Case List</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search cases..." onkeyup="searchTable()">
+        <a href="/adminhome/" class="back-btn">← Back</a>
+    </div>
+
+    <table id="caseTable">
+        <tr>
+            <th>Photo</th>
+            <th>Case No</th>
+            <th>Child Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Location</th>
+            <th>Reported By</th>
+            <th>Helpline</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for case in cases %}
+        <tr>
+            <td>
+                {% if case.photo %}
+                    <img src="{{ case.photo.url }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/50">
+                {% endif %}
+            </td>
+            <td>{{ case.case_number }}</td>
+            <td>{{ case.child_name }}</td>
+            <td>{{ case.child_age }}</td>
+            <td>{{ case.gender }}</td>
+            <td>{{ case.missing_location }}</td>
+            <td>
+                {{ case.user.name }}<br>{{ case.user.email }}
+            </td>
+            <td>
+                {% if case.helpline %}
+                    {{ case.helpline.office_name }}
+                    {{ case.helpline.address }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+            <td>
+                <span class="status {{ case.status }}">
+        {{ case.status }}
+    </span>
+            </td>
+            <td>
+                <a href="{% url 'delete_case' case.id %}" class="delete-btn" onclick="return confirmDelete()">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10">No cases available</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Helpline Registration</title>
+
+    <style>
+        *{
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            margin:0;
+            background:#e9eef2;
+            display:flex;
+            justify-content:center;
+            padding:30px 0;
+        }
+
+        /* MAIN CARD */
+        .page {
+            width: 900px;
+            background: #fff;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity:0; transform:translateY(40px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        /* HEADER */
+        .header {
+            height:120px;
+            background:
+              linear-gradient(to right,#1f2933 55%,#2f9e8f 45%);
+            color:#fff;
+            display:flex;
+            align-items:center;
+            padding:0 40px;
+        }
+
+        .header h2{
+            margin:0;
+            font-weight:700;
+            letter-spacing:1px;
+        }
+
+        .header span{
+            font-size:13px;
+            opacity:0.8;
+        }
+
+        /* CONTENT */
+        .content{
+            padding:40px;
+        }
+
+        h1{
+            margin:0;
+            font-size:28px;
+            color:#1f2933;
+        }
+
+        .subtitle{
+            color:#666;
+            font-size:14px;
+            margin:8px 0 25px;
+        }
+
+        .section-title{
+            font-weight:700;
+            margin:30px 0 15px;
+            color:#2f9e8f;
+            border-bottom:2px solid #2f9e8f;
+            display:inline-block;
+            padding-bottom:5px;
+        }
+
+        /* FORM GRID */
+        .grid{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap:18px 30px;
+        }
+
+        label{
+            font-weight:600;
+            font-size:14px;
+            color:#333;
+        }
+
+        input,textarea,select{
+            width:100%;
+            padding:9px 10px;
+            border:1px solid #bbb;
+            border-radius:5px;
+            font-size:14px;
+            transition:0.3s;
+        }
+
+        textarea{
+            resize:none;
+            height:70px;
+        }
+
+        input:focus,textarea:focus,select:focus{
+            outline:none;
+            border-color:#2f9e8f;
+            box-shadow:0 0 0 2px rgba(47,158,143,0.15);
+            transform:scale(1.02);
+        }
+
+        /* FULL WIDTH */
+        .full{
+            grid-column:1 / -1;
+        }
+
+        button{
+            margin-top:30px;
+            width:100%;
+            padding:14px;
+            background:#1f2933;
+            color:#fff;
+            font-size:16px;
+            font-weight:700;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#2f9e8f;
+            transform:translateY(-2px);
+        }
+
+        /* FOOTER IMAGE */
+        .footer-img{
+            margin-top:35px;
+            height:120px;
+            background:url('https://images.unsplash.com/photo-1581092334651-ddf26d9f42f9')
+            center/cover no-repeat;
+            border-radius:6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <h2>HELPLINE REGISTRATION</h2>
+            <span>Official authority & child safety support system</span>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h1>Helpline Register</h1>
+        <p class="subtitle">
+            Register official helpline offices to assist in protection, reporting, and response.
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="section-title">OFFICE INFORMATION</div>
+
+            <div class="grid">
+                <div>
+                    <label>Office Name:</label>
+                    <input type="text" name="office_name">
+                </div>
+
+                <div>
+                    <label>Helpline Type:</label>
+                    <select name="helpline_type">
+                        <option value="">---select---</option>
+                        <option value="Police Station">Police Station</option>
+                        <option value="Child Welfare">Child Welfare</option>
+                        <option value="NGO">NGO</option>
+                        <option value="Government Office">Government Office</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Officer Name:</label>
+                    <input type="text" name="officer_name">
+                </div>
+
+                <div>
+                    <label>Designation:</label>
+                    <input type="text" name="designation">
+                </div>
+
+                <div>
+                    <label>Gender:</label>
+                    <select name="gender">
+                        <option value="">---select---</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Email:</label>
+                    <input type="email" name="email">
+                </div>
+
+                <div class="full">
+                    <label>Office Address:</label>
+                    <textarea name="address"></textarea>
+                </div>
+            </div>
+
+            <div class="section-title">SECURITY & CONTACT</div>
+
+            <div class="grid">
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name="password">
+                </div>
+
+                <div>
+                    <label>Phone Number:</label>
+                    <input type="tel" name="phone">
+                </div>
+
+                <div>
+                    <label>Profile Photo:</label>
+                    <input type="file" name="profile_photo">
+                </div>
+
+                <div>
+                    <label>ID Proof:</label>
+                    <input type="file" name="id_proof">
+                </div>
+            </div>
+
+            <button type="submit">REGISTER</button>
+        </form>
+
+        <div class="footer-img"></div>
+
+    </div>
+</div>
+
+</body>
+</html>

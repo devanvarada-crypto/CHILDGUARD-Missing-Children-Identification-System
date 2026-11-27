@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Helpline Case Dashboard</title>
+
+<style>
+body {
+    background:#eef2f7;
+    font-family:'Segoe UI', sans-serif;
+    padding:20px;
+}
+
+/* TITLE */
+h2 {
+    text-align:center;
+    margin-bottom:20px;
+    color:#2c3e50;
+}
+
+/* GRID LAYOUT */
+.grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap:18px;
+}
+
+/* CARD */
+.card {
+    background:#fff;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.25s;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.card:hover {
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* HEADER */
+.card-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.child-name {
+    font-weight:600;
+    font-size:16px;
+}
+
+/* STATUS BADGE */
+.status {
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    color:#fff;
+}
+
+.pending { background:#f39c12; }
+.approved { background:#0984e3; }
+.found-status { background:#00b894; }
+
+/* IMAGE */
+.card img {
+    width:100%;
+    height:150px;
+    object-fit:contain;
+    border-radius:8px;
+    margin:8px 0;
+    border:1px solid #ddd;
+}
+
+/* INFO */
+.info {
+    font-size:13px;
+    color:#555;
+    line-height:1.5;
+}
+
+/* BUTTON AREA */
+.actions {
+    margin-top:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+}
+
+/* BUTTONS */
+button {
+    padding:6px 10px;
+    border:none;
+    border-radius:6px;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.approve { background:#0984e3; color:#fff; }
+.found { background:#00b894; color:#fff; }
+.delete { background:#d63031; color:#fff; }
+
+/* ALERT BUTTON */
+.alert-btn {
+    flex:1;
+    text-align:center;
+    padding:8px;
+    font-size:12px;
+    color:#fff;
+    border-radius:20px;
+    background:linear-gradient(135deg, #ff416c, #ff4b2b);
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.alert-btn:hover {
+    transform:scale(1.05);
+    box-shadow:0 0 12px rgba(255,75,43,0.5);
+}
+</style>
+</head>
+
+<body>
+
+<h2>Helpline Case Management</h2>
+
+<div class="grid">
+
+{% for case in cases %}
+<div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+        <div class="child-name">{{ case.child_name }}</div>
+
+        {% if case.status == "PENDING" %}
+            <span class="status pending">PENDING</span>
+        {% elif case.status == "APPROVED" %}
+            <span class="status approved">APPROVED</span>
+        {% elif case.status == "FOUND" %}
+            <span class="status found-status">FOUND</span>
+        {% endif %}
+    </div>
+
+    <!-- IMAGE -->
+    {% if case.photo %}
+        <img src="{{ case.photo.url }}">
+    {% endif %}
+
+    <!-- INFO -->
+    <div class="info">
+        <b>Age:</b> {{ case.child_age }} |
+        <b>Gender:</b> {{ case.gender }} <br>
+
+        <b>Location:</b> {{ case.missing_location }} <br>
+        <b>Date:</b> {{ case.missing_date }} | {{ case.missing_time }} <br>
+
+        <b>Marks:</b> {{ case.identification_marks|truncatechars:40 }} <br>
+        <b>Description:</b> {{ case.description|truncatechars:60 }}
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+        {% if case.status == "PENDING" %}
+        <a href="/approve_case/{{ case.id }}/">
+            <button class="approve">Approve</button>
+        </a>
+        {% endif %}
+
+        {% if case.status != "FOUND" %}
+        <a href="/mark_found/{{ case.id }}/">
+            <button class="found">Found</button>
+        </a>
+        {% endif %}
+
+        <a href="/helpline_delete_case/{{ case.id }}/">
+            <button class="delete">Delete</button>
+        </a>
+
+        <a href="{% url 'send_alert_to_society' case.id %}"
+           class="alert-btn"
+           onclick="return confirm('Send alert to society members?')">
+           🔔 Alert
+        </a>
+
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

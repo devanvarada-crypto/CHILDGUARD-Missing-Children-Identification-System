@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit User Profile</title>
+
+<style>
+body {
+    font-family: Poppins, sans-serif;
+    background: #f4f6f9;
+    padding: 30px;
+}
+.container {
+    max-width: 600px;
+    background: white;
+    margin: auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 8px;
+    border: 1.8px solid #aaa;
+}
+input[readonly] {
+    background: #eee;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #218838;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Edit Profile</h2>
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<input type="text" name="name" value="{{ user.name }}" placeholder="Full Name" required>
+
+<input type="number" name="age" value="{{ user.age }}" placeholder="Age">
+
+<select name="gender">
+    <option value="Male" {% if user.gender == "Male" %}selected{% endif %}>Male</option>
+    <option value="Female" {% if user.gender == "Female" %}selected{% endif %}>Female</option>
+</select>
+
+<input type="email" name="email" value="{{ user.email }}" readonly>
+
+<input type="text" name="phonenumber" value="{{ user.Phone }}" placeholder="Phone Number">
+
+<textarea name="address" placeholder="Address">{{ user.address }}</textarea>
+
+<label>Profile Image</label>
+<input type="file" name="image">
+
+<button type="submit">Save Changes</button>
+
+</form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Registration</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    background:#e7e7e7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.main-box{
+    width:900px;
+    height:520px;
+    display:flex;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(0,0,0,0.35);
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(40px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* LEFT IMAGE */
+.left{
+    width:45%;
+    background:
+        linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+        url("https://images.unsplash.com/photo-1607746882042-944635dfe10e");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.left h2{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.left p{
+    font-size:14px;
+    opacity:.9;
+}
+
+/* RIGHT FORM */
+.right{
+    width:55%;
+    background:white;
+    padding:35px;
+    overflow-y:auto;
+}
+
+.right h1{
+    text-align:center;
+    color:#6a3cbc;
+    margin-bottom:20px;
+}
+
+label{
+    font-size:14px;
+    font-weight:600;
+    color:#444;
+}
+
+input,textarea,select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+input:focus,textarea:focus,select:focus{
+    outline:none;
+    border-color:#6a3cbc;
+    box-shadow:0 0 0 3px rgba(106,60,188,.2);
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#6a3cbc;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#5630a5;
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(106,60,188,.4);
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-box">
+
+    <div class="left">
+        <div>
+            <h2>Child Safety Network</h2>
+           <p>Register as a parent or guardian to securely report and track missing child cases.</p>
+        </div>
+    </div>
+
+    <div class="right">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Registration</h1>
+
+            <label>Name</label>
+            <input type="text" name="name">
+
+            <label>Age</label>
+            <input type="number" name="age">
+
+            <label>Email</label>
+            <input type="email" name="email">
+
+            <label>Phone.No</label>
+            <input type="text" name="phonenumber">
+
+            <label>Address</label>
+            <textarea name="address"></textarea>
+
+            <label>Password</label>
+            <input type="password" name="password">
+
+            <label>Image</label>
+            <input type="file" name="image">
+
+            <label>Gender</label>
+            <select name="gender">
+                <option value="">---select---</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+
+            <button type="submit">REGISTER</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

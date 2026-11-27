@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Child Missing Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: url("https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e")
+                center/cover no-repeat fixed;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Glass Card */
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 35px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    background: rgba(255,255,255,0.6);
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    background: rgba(255,255,255,0.95);
+    transform: scale(1.02);
+}
+
+h2 {
+    text-align: center;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 600;
+    color: white;
+    font-size: 15px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #ffd369;
+    font-size: 18px;
+    color: black;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: #ffca41;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+    <h2>Child Missing Registration</h2>
+
+    <!-- Correct Django URL -->
+ <form method="POST" enctype="multipart/form-data" action="{% url 'submit_missing_case' %}">
+
+    {% csrf_token %}
+
+    <label>Reporter Name</label>
+    <input type="text" name="reporter_name" value="{{ user_name }}" readonly>
+
+    <label>Reporter Email</label>
+    <input type="email" name="reporter_email" value="{{ user_email }}" readonly>
+
+    <label>Child Name</label>
+    <input type="text" name="child_name" required>
+
+    <label>Child Age</label>
+    <input type="number" name="child_age" required>
+
+    <label>Gender</label>
+    <select name="gender" required>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <label>Identification Marks</label>
+    <input type="text" name="marks">
+
+    <label>Description</label>
+    <textarea name="description"></textarea>
+
+    <label>Missing Location</label>
+    <input type="text" name="missing_location" required>
+
+    <label>Missing Date</label>
+    <input type="date" name="missing_date" required>
+
+    <label>Missing Time</label>
+    <input type="time" name="missing_time" required>
+
+    <label>Photo</label>
+    <input type="file" name="photo">
+
+    <label>Video</label>
+    <input type="file" name="video">
+
+    <button type="submit">Submit Case</button>
+</form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Volunteers Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #1aa39a, #0e7c73);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wrapper {
+            width: 820px;
+            height: 480px;
+            background: #fff;
+            display: flex;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            animation: fadeSlide 0.9s ease;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* LEFT IMAGE PANEL */
+        .left-panel {
+            width: 45%;
+            background-image: url("https://media.istockphoto.com/id/1625310710/photo/happy-group-of-volunteer-people-stacking-hands-celebrating-together-outdoor-teamwork-and.jpg?s=612x612&w=0&k=20&c=KrkTdMYjObaAhhwzsTnHf8dIDpdmc5pvAujfCl6riXU=");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: white;
+        }
+
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-content h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .left-content p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        /* RIGHT FORM PANEL */
+        .right-panel {
+            width: 55%;
+            padding: 35px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #0e7c73;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0e7c73;
+            box-shadow: 0 0 0 2px rgba(14,124,115,0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0e7c73;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #095f58;
+            transform: translateY(-1px);
+        }
+
+        .back-btn {
+            background-color: #ccc;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .back-btn:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- LEFT IMAGE SECTION -->
+    <div class="left-panel">
+        <div class="left-content">
+            <h2>Society Registration</h2>
+            <p>
+                Register as a responsible society member to help report and locate missing children.
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT FORM SECTION -->
+    <div class="right-panel">
+
+        
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h1>Volunteer Registration</h1>
+
+            <label>Full Name</label>
+            <input type="text" name="name" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Phone</label>
+            <input type="tel" name="phone" required>
+
+            <label>Bio</label>
+            <textarea name="bio"></textarea>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <label>Profile Picture</label>
+            <input type="file" name="image">
+
+            <label>Address</label>
+            <input type="text" name="address" placeholder="Eg: Thrissur, Kerala" required>
+
+            <button type="submit">SIGN UP</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

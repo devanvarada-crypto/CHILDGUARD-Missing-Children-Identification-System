@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Face Verification</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CONTAINER */
+.container {
+    width: 95%;
+    max-width: 1000px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+    margin-bottom: 12px;
+    color: #2c3e50;
+}
+
+/* IMAGE ROW */
+.card-row {
+    display: flex;
+    gap: 15px;
+}
+
+/* IMAGE CARD */
+.image-card {
+    flex: 1;
+    background: #f9fafc;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e0e6ed;
+    text-align: center;
+    transition: 0.25s;
+}
+
+/* HOVER */
+.image-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.image-card h4 {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* IMAGE (FULL VIEW, NO CROP) */
+.image-card img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* RESULT */
+.result {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.success { color: #27ae60; }
+.warning { color: #f39c12; }
+.error { color: #e74c3c; }
+
+/* STATUS BADGE */
+.status-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.match { background: #27ae60; }
+.no-match { background: #f39c12; }
+
+/* BUTTONS */
+.actions {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.btn {
+    padding: 8px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2c80b4;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>AI Face Verification</h2>
+
+<div class="card-row">
+
+    <div class="image-card">
+        <h4>Missing Child</h4>
+        <img src="{{ case.photo.url }}">
+    </div>
+
+    <div class="image-card">
+        <h4>Detected Photo</h4>
+        <img src="{{ alert.found_photo.url }}">
+    </div>
+
+</div>
+
+<!-- {% if result %}
+<div class="result 
+{% if "NO MATCH" in result %}warning{% else %}success{% endif %}">
+    {{ result }}
+</div> -->
+
+<div style="text-align:center;">
+    {% if "NO MATCH" in result %}
+        <span class="status-badge no-match">NO MATCH</span>
+    {% else %}
+        <span class="status-badge match">MATCH FOUND</span>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if error %}
+<div class="result error">
+    {{ error }}
+</div>
+{% endif %}
+
+<hr>
+
+<div class="actions">
+    <a href="{% url 'mark_found' case.id %}">
+        <button class="btn btn-primary">Confirm Found</button>
+    </a>
+
+    <a href="{% url 'helpline_alert_reports' %}">
+        <button class="btn btn-secondary">Back</button>
+    </a>
+</div>
+
+</div>
+
+</body>
+</html>

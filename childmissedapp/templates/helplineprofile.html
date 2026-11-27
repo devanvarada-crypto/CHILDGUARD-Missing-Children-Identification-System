@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpline Profile</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .profile-box {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .profile-img img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #bbb;
+        }
+
+        .details label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .details p {
+            margin: 6px 0 16px;
+            color: #555;
+        }
+
+        .id-proof img {
+            width: 160px;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            margin-top: 10px;
+        }
+
+        .edit-btn {
+            padding: 10px 20px;
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .edit-btn:hover {
+            background: #1559b0;
+        }
+
+    
+.back-btn {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 8px 14px;
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.back-btn:hover {
+    background: #000;
+    transform: translateX(-2px);
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Helpline Officer Profile</h1>
+    </div>
+
+    <div class="profile-box">
+
+        <div class="profile-img">
+            {% if userhelp.profile_photo %}
+                <img src="{{ userhelp.profile_photo.url }}" alt="Profile Photo">
+            {% else %}
+                <div style="width:110px;height:110px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;color:#555;">No Image</div>
+            {% endif %}
+        </div>
+
+        <div class="details">
+
+            <label>Office Name</label>
+            <p>{{ userhelp.office_name }}</p>
+
+            <label>Helpline Type</label>
+            <p>{{ userhelp.helpline_type }}</p>
+
+            <label>Officer Name</label>
+            <p>{{ userhelp.officer_name }}</p>
+
+            <label>Designation</label>
+            <p>{{ userhelp.designation }}</p>
+
+            <label>Gender</label>
+            <p>{{ userhelp.gender }}</p>
+
+            <label>Email</label>
+            <p>{{ userhelp.email }}</p>
+
+            <label>Phone</label>
+            <p>{{ userhelp.phone }}</p>
+
+            <label>Address</label>
+            <p>{{ userhelp.address }}</p>
+
+            <label>ID Proof</label>
+            <div class="id-proof">
+                {% if userhelp.id_proof %}
+                    <img src="{{ userhelp.id_proof.url }}" alt="ID Proof">
+                {% else %}
+                    <p>No ID Uploaded</p>
+                {% endif %}
+            </div>
+            <a href="{% url 'helplinehome' %}" class="back-btn">← Back</a>
+            <a href="{% url 'editprofilehelp' %}">
+    <button class="edit-btn">Edit Profile</button>
+</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

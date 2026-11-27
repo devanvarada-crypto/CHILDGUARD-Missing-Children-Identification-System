@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<style>
+/* ---------- GLOBAL RESET ---------- */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+}
+
+/* ---------- BACKGROUND ---------- */
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0f172a,#06203a,#0f172a);
+  background-size:260% 260%;
+  animation:bgMove 9s ease-in-out infinite;
+  padding:24px;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* ---------- CARD ---------- */
+.login-wrapper{
+  width:100%;
+  max-width:420px;
+}
+
+.login-card{
+  width:100%;
+  background:#ffffff;
+  padding:32px;
+  border-radius:14px;
+  box-shadow:0 24px 48px rgba(12,18,31,.18);
+  animation:fadeUp .9s ease both;
+  transition:transform .35s ease;
+}
+
+.login-card:hover{
+  transform:translateY(-6px);
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px) scale(.96);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* ---------- TEXT ---------- */
+h2{
+  margin:0 0 20px;
+  color:#0f172a;
+}
+
+/* ---------- INPUTS ---------- */
+.field{
+  position:relative;
+  margin-bottom:16px;
+  width:100%;
+}
+
+input{
+  width:100%;
+  padding:12px 42px 12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(15,23,42,.12);
+  font-size:14px;
+}
+
+input:focus{
+  outline:none;
+  border-color:#3a7bd5;
+  box-shadow:0 6px 18px rgba(58,123,213,.12);
+}
+
+/* ---------- PASSWORD TOGGLE ---------- */
+.toggle-pass{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:14px;
+  color:#3a7bd5;
+}
+
+/* ---------- BUTTON ---------- */
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#3a7bd5,#00d2ff);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s ease;
+  box-shadow:0 10px 22px rgba(58,123,213,.18);
+}
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 30px rgba(58,123,213,.28);
+}
+
+/* ---------- FOOTER ---------- */
+.footer-text{
+  margin-top:14px;
+  font-size:13px;
+  color:#6b7280;
+  text-align:center;
+}
+
+/* ---------- MESSAGE ---------- */
+.message{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:500;
+  display:none;
+}
+
+.message.show{
+  display:block;
+  color:#16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+  <div class="login-card" id="card">
+    <h2>Admin Login</h2>
+
+    <form method="POST" action="{% url 'adminlogin' %}">
+  {% csrf_token %}
+
+  <div class="field">
+    <input type="email" name="email" placeholder="Enter Email" required>
+  </div>
+
+  <div class="field">
+    <input type="password" name="password" id="password" placeholder="Enter Password" required>
+    <span class="toggle-pass" onclick="togglePass()">👁</span>
+  </div>
+
+  <button type="submit">Login</button>
+
+  <p class="footer-text">Authorized Access Only</p>
+</form>
+
+  </div>
+</div>
+
+<script>
+function togglePass(){
+  const p=document.getElementById("password");
+  p.type = p.type==="password" ? "text" : "password";
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  document.getElementById("msg").classList.add("show");
+}
+</script>
+
+</body>
+</html>

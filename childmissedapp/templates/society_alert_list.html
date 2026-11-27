@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Missing Child Alerts</title>
+
+<style>
+body {
+    background:#eef2f7;
+    font-family:'Segoe UI', sans-serif;
+    padding:20px;
+}
+
+/* TITLE */
+h2 {
+    text-align:center;
+    margin-bottom:20px;
+    color:#2c3e50;
+}
+
+/* GRID */
+.grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap:18px;
+}
+
+/* CARD */
+.card {
+    background:#fff;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.25s;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.card:hover {
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+.card img {
+    width:100%;
+    height:160px;
+    object-fit:contain;
+    border-radius:8px;
+    margin-bottom:10px;
+    border:1px solid #ddd;
+}
+
+/* HEADER */
+.card-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+}
+
+/* NAME */
+.child-name {
+    font-size:16px;
+    font-weight:600;
+    color:#2c3e50;
+}
+
+/* STATUS */
+.status {
+    font-size:11px;
+    padding:4px 8px;
+    border-radius:12px;
+    font-weight:600;
+    color:#fff;
+}
+
+.new { background:#e67e22; }
+.reported { background:#27ae60; }
+
+/* INFO */
+.info {
+    font-size:13px;
+    color:#555;
+    line-height:1.5;
+    margin:8px 0;
+}
+
+/* LABEL */
+.label {
+    font-weight:600;
+    color:#444;
+}
+
+/* ALERT MESSAGE */
+.alert-msg {
+    font-size:13px;
+    background:#f8f9fa;
+    padding:8px;
+    border-radius:6px;
+    margin-bottom:10px;
+    color:#444;
+}
+
+/* BUTTON */
+.action-btn {
+    display:block;
+    text-align:center;
+    padding:10px;
+    border-radius:8px;
+    background:linear-gradient(135deg, #ff416c, #ff4b2b);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.action-btn:hover {
+    transform:scale(1.04);
+    box-shadow:0 0 12px rgba(255,75,43,0.5);
+}
+
+/* EMPTY */
+.empty {
+    text-align:center;
+    color:#777;
+    margin-top:30px;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🚨 Missing Child Alerts</h2>
+
+<div class="grid">
+
+{% for a in alerts %}
+<div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+        <div class="child-name">{{ a.case.child_name }}</div>
+
+        {% if a.status == "REPORTED" %}
+            <span class="status reported">REPORTED</span>
+        {% else %}
+            <span class="status new">NEW</span>
+        {% endif %}
+    </div>
+
+    <!-- IMAGE -->
+    {% if a.found_photo %}
+        <img src="{{ a.found_photo.url }}" alt="Found Photo">
+    {% else %}
+        <img src="https://via.placeholder.com/300x160?text=No+Image">
+    {% endif %}
+
+    <!-- INFO -->
+    <div class="info">
+        <span class="label">Age:</span> {{ a.case.child_age }} <br>
+        <span class="label">Area:</span> {{ a.case.missing_location }} <br>
+        <span class="label">Date & Time:</span> {{ a.case.missing_date }} | {{ a.case.missing_time }} <br>
+        <span class="label">Identification:</span> {{ a.case.identification_marks|truncatechars:50 }} <br>
+        <span class="label">Description:</span> {{ a.case.description|truncatechars:60 }}
+    </div>
+
+    <!-- ALERT MESSAGE -->
+    <div class="alert-msg">
+        {{ a.alert_message }}
+    </div>
+
+    <!-- ACTION -->
+    <a href="{% url 'report_child_found' a.id %}" class="action-btn">
+        Report If Seen
+    </a>
+
+</div>
+
+{% empty %}
+<div class="empty">No alerts available</div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

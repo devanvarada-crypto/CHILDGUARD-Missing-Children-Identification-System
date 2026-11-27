@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mark Case as Found</title>
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+    padding: 40px;
+}
+.box {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+button {
+    background: green;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+    <h2>Mark Case as Found</h2>
+
+    <p><strong>Case:</strong> {{ case.case_number }} – {{ case.child_name }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="found_location"
+               placeholder="Found location" required>
+
+        <textarea name="found_notes"
+                  placeholder="Brief notes (who found, condition, etc)"
+                  rows="4"></textarea>
+
+        <button type="submit">Confirm Found</button>
+    </form>
+</div>
+</body>
+</html>

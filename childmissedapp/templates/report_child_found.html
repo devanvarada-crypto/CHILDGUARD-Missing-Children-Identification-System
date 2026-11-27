@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Report Child Found</title>
+
+<style>
+body {
+    background:#eef2f7;
+    font-family:'Segoe UI', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.container {
+    background:#fff;
+    padding:25px;
+    border-radius:14px;
+    width:360px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+h2 {
+    margin-bottom:15px;
+    color:#2c3e50;
+}
+
+input[type="file"], input[type="text"] {
+    width:100%;
+    padding:8px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    background:#fafafa;
+}
+
+button {
+    margin-top:15px;
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg, #ff416c, #ff4b2b);
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    transform:scale(1.04);
+    box-shadow:0 0 12px rgba(255,75,43,0.5);
+}
+
+#locationStatus {
+    margin-top:12px;
+    font-size:13px;
+    color:#555;
+}
+
+.success { color:#27ae60; }
+.error { color:#e74c3c; }
+
+#preview {
+    width:100%;
+    margin-top:10px;
+    border-radius:8px;
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📍 Report Child Found</h2>
+
+<form method="post" enctype="multipart/form-data" id="reportForm">
+    {% csrf_token %}
+
+    <!-- GPS TOGGLE -->
+    <label>
+        <input type="checkbox" id="useLiveLocation" checked>
+        Use My Current Location
+    </label>
+
+    <!-- HIDDEN LAT/LNG -->
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lng" id="lng">
+
+    <!-- MANUAL LAT/LNG -->
+    <input type="text" id="manualLat" placeholder="Enter Latitude">
+    <input type="text" id="manualLng" placeholder="Enter Longitude">
+
+    <!-- PHOTO -->
+    <label><b>Upload Photo Proof</b></label>
+    <input type="file" name="photo" id="photo" required>
+
+    <!-- PREVIEW -->
+    <img id="preview">
+
+    <button type="submit">Submit Report</button>
+</form>
+
+<p id="locationStatus">Fetching your location…</p>
+
+</div>
+
+<script>
+const checkbox = document.getElementById("useLiveLocation");
+const status = document.getElementById("locationStatus");
+const form = document.getElementById("reportForm");
+
+/* GPS FUNCTION */
+function fetchLocation(){
+    navigator.geolocation.getCurrentPosition(
+        function(pos){
+            document.getElementById('lat').value = pos.coords.latitude;
+            document.getElementById('lng').value = pos.coords.longitude;
+            status.innerText = "Live location captured ✔";
+            status.className = "success";
+        },
+        function(){
+            status.innerText = "Location denied. Use manual mode.";
+            status.className = "error";
+        }
+    );
+}
+
+/* INITIAL LOAD */
+if(checkbox.checked){
+    fetchLocation();
+}
+
+/* TOGGLE */
+checkbox.addEventListener("change", function(){
+    if(this.checked){
+        fetchLocation();
+    } else {
+        document.getElementById('lat').value = "";
+        document.getElementById('lng').value = "";
+        status.innerText = "Manual mode enabled";
+    }
+});
+
+/* FORM SUBMIT HANDLER (IMPORTANT FIX) */
+form.addEventListener("submit", function(e){
+
+    if(!checkbox.checked){
+        // Manual mode → copy values into hidden fields
+        document.getElementById("lat").value = document.getElementById("manualLat").value;
+        document.getElementById("lng").value = document.getElementById("manualLng").value;
+    }
+
+});
+
+/* IMAGE PREVIEW */
+document.getElementById('photo').onchange = function(e){
+    const file = e.target.files[0];
+    if(file){
+        const preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+};
+
+/* DEMO MODE */
+if(window.location.hostname === "localhost"){
+    checkbox.checked = false;
+    status.innerText = "Demo mode (manual entry)";
+}
+</script>
+
+</body>
+</html>

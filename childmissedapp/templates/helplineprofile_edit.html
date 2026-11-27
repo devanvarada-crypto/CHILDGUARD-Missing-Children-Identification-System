@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Helpline Profile</title>
+
+<style>
+body {
+    font-family: Poppins, sans-serif;
+    background: #f4f6f9;
+    padding: 30px;
+}
+.container {
+    max-width: 700px;
+    background: white;
+    margin: auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 8px;
+    border: 1.8px solid #aaa;
+}
+input[readonly] {
+    background: #eee;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #155fc1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Edit Helpline Profile</h2>
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<input type="text" name="office_name" value="{{ userhelp.office_name }}" placeholder="Office Name" required>
+
+<input type="text" name="helpline_type" value="{{ userhelp.helpline_type }}" placeholder="Helpline Type">
+
+<input type="text" name="officer_name" value="{{ userhelp.officer_name }}" placeholder="Officer Name">
+
+<input type="text" name="designation" value="{{ userhelp.designation }}" placeholder="Designation">
+
+<select name="gender">
+    <option value="Male" {% if userhelp.gender == "Male" %}selected{% endif %}>Male</option>
+    <option value="Female" {% if userhelp.gender == "Female" %}selected{% endif %}>Female</option>
+</select>
+
+<input type="email" name="email" value="{{ userhelp.email }}" readonly>
+
+<input type="text" name="phone" value="{{ userhelp.phone }}" placeholder="Phone">
+
+<textarea name="address" placeholder="Address">{{ userhelp.address }}</textarea>
+
+<label>Profile Photo</label>
+<input type="file" name="profile_photo">
+
+<label>ID Proof</label>
+<input type="file" name="id_proof">
+
+<button type="submit">Update Profile</button>
+
+</form>
+</div>
+
+</body>
+</html>

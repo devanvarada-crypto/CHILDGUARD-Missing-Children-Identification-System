@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Protection Portal</title>
+
+    <!-- FONT & ICONS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        /* Bright Background Image */
+        body{
+            background:url('https://images.pexels.com/photos/532518/pexels-photo-532518.jpeg') no-repeat center/cover;
+            min-height:100vh;
+            color:#222;
+            transition:0.4s ease;
+        }
+
+        /* Transparent Navbar */
+        nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 50px;
+            background:rgba(255,255,255,0.25);
+            backdrop-filter:blur(10px);
+            border-bottom:1px solid rgba(255,255,255,0.4);
+        }
+
+        nav ul{
+            display:flex;
+            gap:30px;
+        }
+
+        nav ul li{
+            list-style:none;
+        }
+
+        nav ul li a{
+            text-decoration:none;
+            color:white;
+            font-size:17px;
+            font-weight:600;
+            text-shadow:0 2px 4px rgba(0,0,0,0.6);
+            transition:0.3s;
+        }
+
+        nav ul li a:hover{
+            opacity:0.7;
+        }
+/* LIGHT DROPDOWN */
+.dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #222 !important;
+    font-weight: 600;
+}
+
+/* Arrow */
+.dropdown > a::after {
+    content: "▼";
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.dropdown.open > a::after {
+    transform: rotate(-180deg);
+}
+
+/* Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    min-width: 200px;
+    padding: 10px 0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 0.35s ease;
+    z-index: 99999;
+}
+
+/* Show */
+.dropdown.open .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Items */
+.dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    margin: 6px 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #222 !important;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+/* Neon Hover */
+.dropdown-menu a:hover {
+    background: white;
+    border-color: #a020f0;
+    box-shadow: 0 0 10px rgba(160,32,240,0.6);
+    transform: translateY(-2px);
+}
+
+/* Stagger Fade */
+.dropdown.open .dropdown-menu a {
+    animation: fadeSlide 0.35s forwards;
+}
+
+.dropdown.open .dropdown-menu a:nth-child(1) { animation-delay: 0.05s; }
+.dropdown.open .dropdown-menu a:nth-child(2) { animation-delay: 0.15s; }
+.dropdown.open .dropdown-menu a:nth-child(3) { animation-delay: 0.25s; }
+.dropdown.open .dropdown-menu a:nth-child(4) { animation-delay: 0.35s; }
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+        /* Floating AI Icons - Light Glow */
+        .floating-icons i{
+            position:fixed;
+            animation:float 4s infinite ease-in-out;
+            font-size:35px;
+            color:white;
+            opacity:0.7;
+            text-shadow:0 0 15px rgba(255,255,255,0.8);
+        }
+
+        .floating-icons i:nth-child(1){ top:80%; left:10%; animation-delay:0s; }
+        .floating-icons i:nth-child(2){ top:20%; right:12%; animation-delay:1s; }
+        .floating-icons i:nth-child(3){ top:50%; left:70%; animation-delay:2s; }
+        .floating-icons i:nth-child(4){ top:30%; left:20%; animation-delay:3s; }
+
+        @keyframes float {
+            0% { transform:translateY(0); }
+            50% { transform:translateY(-15px); opacity:1; }
+            100% { transform:translateY(0); }
+        }
+
+        /* Hero */
+        .hero{
+            text-align:center;
+            margin-top:140px;
+            padding:20px;
+        }
+        .hero h1{
+            font-size:45px;
+            color:white;
+            text-shadow:0 3px 8px rgba(0,0,0,0.6);
+        }
+        .hero p{
+            color:white;
+            font-size:18px;
+            margin-top:10px;
+            text-shadow:0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        /* Stats - Soft Glass */
+        .stats{
+            margin:80px auto;
+            width:90%;
+            display:flex;
+            justify-content:space-around;
+            flex-wrap:wrap;
+        }
+        .stat-box{
+            width:200px;
+            padding:20px;
+            text-align:center;
+            background:rgba(255,255,255,0.5);
+            backdrop-filter:blur(8px);
+            color:#222;
+            border-radius:15px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.1);
+        }
+        .stat-box h2{
+            font-size:40px;
+            color:#111;
+        }
+
+        /* Testimonials - Soft, Light Carousel */
+        .slider{
+            width:80%;
+            margin:20px auto;
+            overflow:hidden;
+            background:rgba(255,255,255,0.55);
+            backdrop-filter:blur(10px);
+            border-radius:20px;
+            box-shadow:0 4px 20px rgba(0,0,0,0.1);
+        }
+        .slides{
+            display:flex;
+            animation:slide 15s infinite linear;
+        }
+        .slide{
+            min-width:100%;
+            text-align:center;
+            padding:20px;
+            font-size:20px;
+            color:#333;
+        }
+        @keyframes slide{
+            0%{ transform:translateX(0); }
+            33%{ transform:translateX(-100%); }
+            66%{ transform:translateX(-200%); }
+            100%{ transform:translateX(0); }
+        }
+
+        /* Awareness Light Box */
+        .aware{
+            margin:80px auto;
+            width:85%;
+            text-align:center;
+            background:rgba(255,255,255,0.5);
+            backdrop-filter:blur(10px);
+            padding:30px;
+            border-radius:20px;
+            color:#222;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Floating Icons -->
+    <div class="floating-icons">
+        <i class="fa-solid fa-shield"></i>
+        <i class="fa-solid fa-brain"></i>
+        <i class="fa-solid fa-robot"></i>
+        <i class="fa-solid fa-eye"></i>
+    </div>
+
+    <!-- Navbar -->
+   <nav>
+    <h2>Report Missing Child</h2>
+
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        <li class="dropdown">
+            <a href="#">Register</a>
+            <div class="dropdown-menu">
+                <a href="/register/">User</a>
+                <a href="/regsociety/">Society</a>        
+               <a href="/helplineregister/">Helpline</a>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="#">Login</a>
+            <div class="dropdown-menu">
+                <a href="/adminlogin/">Admin</a>
+                <a href="/login/">User</a>
+                <a href="/societylogin/">Society</a>
+                <a href="/helplinelogin/">Helpline</a>
+            </div>
+        </li>
+
+        <li><a href="#">About</a></li>
+    </ul>
+</nav>
+
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Protect Children in the Digital World</h1>
+        <p>Your vigilance saves lives. Create a safe online future.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-box">
+            <h2>95%</h2>
+            <p>Cases Resolved</p>
+        </div>
+        <div class="stat-box">
+            <h2>1200+</h2>
+            <p>Children Protected</p>
+        </div>
+        <div class="stat-box">
+            <h2>300+</h2>
+            <p>Volunteers</p>
+        </div>
+    </div>
+
+    <!-- Testimonial Slider -->
+    <div class="slider">
+        <div class="slides">
+            <div class="slide">“This website helped us find our missing child within 24 hours.”</div>
+            <div class="slide">“Quick reporting saved a kid in my neighborhood.”</div>
+            <div class="slide">“Every parent must use this portal for digital safety.”</div>
+        </div>
+    </div>
+
+   
+    <div class="aware">
+        <h2>Stay Alert, Stay Aware</h2>
+        <p>Online grooming and trafficking often start silently. Awareness saves lives.</p>
+    </div>
+    <script>
+document.querySelectorAll('.dropdown').forEach(drop => {
+    const trigger = drop.querySelector('a');
+
+    trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        drop.classList.toggle('open');
+
+        document.querySelectorAll('.dropdown').forEach(other => {
+            if (other !== drop) other.classList.remove('open');
+        });
+    });
+});
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    }
+});
+</script>
+
+</body>
+</html>

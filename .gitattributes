@@ -1,2 +1,29 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Database and secrets
+db.sqlite3
+*.sqlite3
+.env
+.env.*
+
+# Uploaded media
+media/
+uploads/
+
+# Generated files
+staticfiles/
+*.log
+
+# Editors
+.vscode/
+.idea/

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Child Detection Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 90vh; width: 100%; }
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        .input-container { padding: 10px; text-align: center; }
+        input, button { padding: 8px; margin: 5px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="input-container">
+    <input type="text" id="locationInput" placeholder="Enter last seen location">
+    <button onclick="showChildLocation()">Locate Child</button>
+</div>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize map
+    var map = L.map('map').setView([10.8505, 76.2711], 7); // Kerala
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    var childMarker;
+    var helplineMarkers = [];
+    var childLat, childLng;
+
+    function showChildLocation() {
+        var location = document.getElementById('locationInput').value;
+        if (!location) return alert("Enter a location");
+
+        fetch(`/get_child_location/?location=${encodeURIComponent(location)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) return alert(data.error);
+
+            if (childMarker) map.removeLayer(childMarker);
+
+            childLat = data.lat;
+            childLng = data.lng;
+
+            childMarker = L.marker([childLat, childLng], {
+                icon: L.icon({
+                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                    iconSize: [30, 30]
+                })
+            }).addTo(map)
+              .bindPopup("<b>Child Last Seen Here</b>")
+              .openPopup();
+
+            map.setView([childLat, childLng], 14);
+
+            fetchHelplines();
+        });
+    }
+
+    function fetchHelplines() {
+        fetch('/get_helplines/')
+        .then(response => response.json())
+        .then(data => {
+            helplineMarkers.forEach(m => map.removeLayer(m));
+            helplineMarkers = [];
+
+            data.helplines.forEach(h => {
+
+                // 📏 calculate distance (km)
+                var distance = map.distance(
+                    [childLat, childLng],
+                    [h.lat, h.lng]
+                ) / 1000;
+
+                // show only nearby helplines (within 30 km)
+                if (distance <= 30) {
+                    var marker = L.marker([h.lat, h.lng], {
+                        icon: L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/190/190411.png',
+                            iconSize: [25, 25]
+                        })
+                    }).addTo(map)
+                    .bindPopup(`
+                        <b>${h.name}</b><br>
+                        Type: ${h.type}<br>
+                        Distance: ${distance.toFixed(1)} km<br><br>
+                        <button onclick="registerCase('${h.id}')"
+                            style="padding:6px 10px;
+                                   background:#e63946;
+                                   color:#fff;
+                                   border:none;
+                                   border-radius:6px;
+                                   cursor:pointer;">
+                            Register Case
+                        </button>
+                    `);
+
+                    helplineMarkers.push(marker);
+                }
+            });
+        });
+    }
+
+    function registerCase(helplineId) {
+        // Redirect to case registration page
+        window.location.href =
+            `/child_missing_form/?helpline=${helplineId}&lat=${childLat}&lng=${childLng}`;
+    }
+</script>
+
+</body>
+</html>

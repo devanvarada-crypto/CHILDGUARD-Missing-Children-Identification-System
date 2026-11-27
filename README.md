@@ -1,6 +1,6 @@
-# CHILDGUARD – Missing Children Identification System
+# CHILDGUARD:Smart Monitoring & Identification System for Missing Children
 AI-powered Missing Children Identification System using Django and Computer Vision
-# CHILDGUARD – Missing Children Identification System
+# CHILDGUARD:Smart Monitoring & Identification System for Missing Children
 
 An AI-powered Missing Children Identification and Tracking System designed to help identify missing children using facial recognition technology and support location-based tracking.
 

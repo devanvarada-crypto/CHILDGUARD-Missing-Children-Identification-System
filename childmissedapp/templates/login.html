@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Login</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+/* ---------- THEME VARIABLES ---------- */
+:root{
+    --bg: linear-gradient(135deg,#eaf6ff,#f7fbff);
+    --card-bg: rgba(255,255,255,0.65);
+    --text: #0f4c75;
+    --input-bg: rgba(255,255,255,0.6);
+    --accent: #3a8dde;
+    --shadow: rgba(0,80,150,0.2);
+}
+
+body.dark{
+    --bg: linear-gradient(135deg,#0f2027,#203a43);
+    --card-bg: rgba(20,40,55,0.7);
+    --text: #e8f6ff;
+    --input-bg: rgba(255,255,255,0.12);
+    --accent: #6dbdff;
+    --shadow: rgba(0,0,0,0.5);
+}
+
+/* ---------- BACKGROUND ---------- */
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--bg);
+    transition:0.6s;
+    overflow:hidden;
+}
+
+/* ---------- CARD ---------- */
+.container{
+    width:360px;
+    padding:36px 30px 42px;
+    background:var(--card-bg);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    box-shadow:0 20px 45px var(--shadow);
+    animation:floatCard 4s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+}
+
+/* ---------- TITLE ---------- */
+h1{
+    text-align:center;
+    color:var(--text);
+    letter-spacing:1px;
+    margin-bottom:26px;
+}
+
+/* ---------- INPUTS ---------- */
+.field{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.field input{
+    width:100%;
+    padding:14px 52px;
+    border-radius:30px;
+    border:none;
+    background:var(--input-bg);
+    color:var(--text);
+    outline:none;
+    font-size:15px;
+}
+
+.field input::placeholder{
+    color:#8fb3cc;
+}
+
+.icon{
+    position:absolute;
+    top:50%;
+    left:18px;
+    transform:translateY(-50%);
+    width:20px;
+    fill:var(--accent);
+}
+
+.toggle{
+    position:absolute;
+    top:50%;
+    right:18px;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:14px;
+    color:var(--accent);
+}
+
+/* ---------- BUTTON ---------- */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(135deg,#6dbdff,#3a8dde);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    letter-spacing:1px;
+    animation:pulse 2.5s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.06);}
+}
+
+/* ---------- STATUS MESSAGE ---------- */
+.message{
+    margin-top:16px;
+    text-align:center;
+    font-weight:500;
+    opacity:0;
+    transform:translateY(8px);
+    transition:0.4s;
+}
+
+.message.success{
+    color:#2ecc71;
+}
+
+.message.error{
+    color:#e74c3c;
+}
+
+.message.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ---------- TOGGLES ---------- */
+.top-controls{
+    position:absolute;
+    top:18px;
+    right:22px;
+}
+
+.top-controls button{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+    background:var(--card-bg);
+    color:var(--text);
+    border:none;
+    cursor:pointer;
+    box-shadow:0 4px 12px var(--shadow);
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-controls">
+    <button onclick="toggleDark()">🌙</button>
+</div>
+
+<div class="container">
+    <form method="POST">
+    {% csrf_token %}
+
+    <h1>USER LOGIN</h1>
+
+    <div class="field">
+        <input type="email" name="email" placeholder="Username" required>
+    </div>
+
+    <div class="field">
+        <input type="password" id="pass" name="password" placeholder="Password" required>
+        <span class="toggle" onclick="togglePass()">👁</span>
+    </div>
+
+    <button type="submit">LOGIN</button>
+</form>
+
+</div>
+
+<script>
+function togglePass(){
+    const p=document.getElementById("pass");
+    p.type = p.type==="password" ? "text" : "password";
+}
+
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+
+function login(e){
+    e.preventDefault();
+    const msg=document.getElementById("msg");
+
+    msg.className="message show success";
+    msg.textContent="Login Successful ✔";
+
+    
+}
+</script>
+
+</body>
+</html>

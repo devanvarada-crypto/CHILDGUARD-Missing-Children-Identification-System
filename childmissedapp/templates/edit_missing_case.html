@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Case</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            width: 420px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 70px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            border: none;
+            color: white;
+            font-size: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+<h2>Edit Missing Child Case</h2>
+
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+<label>Child Name</label>
+<input type="text" name="child_name" value="{{ case.child_name }}">
+
+<label>Child Age</label>
+<input type="number" name="child_age" value="{{ case.child_age }}">
+
+<label>Gender</label>
+<select name="gender">
+    <option value="Male" {% if case.gender == "Male" %}selected{% endif %}>Male</option>
+    <option value="Female" {% if case.gender == "Female" %}selected{% endif %}>Female</option>
+</select>
+
+<label>Identification Marks</label>
+<textarea name="marks">{{ case.identification_marks }}</textarea>
+
+<label>Description</label>
+<textarea name="description">{{ case.description }}</textarea>
+
+<label>Missing Location</label>
+<input type="text" name="missing_location" value="{{ case.missing_location }}">
+
+<label>Missing Date</label>
+<input type="date" name="missing_date" value="{{ case.missing_date|date:'Y-m-d' }}">
+
+<label>Missing Time</label>
+<input type="time" name="missing_time" value="{{ case.missing_time|time:'H:i' }}">
+
+<label>Update Photo</label>
+<input type="file" name="photo">
+
+<label>Update Video</label>
+<input type="file" name="video">
+
+<button type="submit">Update Case</button>
+</form>
+
+<div class="back">
+    <a href="/user_missing_cases/">Back</a>
+</div>
+</div>
+
+</body>
+</html>
